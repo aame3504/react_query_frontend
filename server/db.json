@@ -2,7 +2,7 @@
   "user": [
     {
       "id": "1",
-      "name": "Alice",
+      "username": "Alice",
       "password": "1111",
       "age": 30,
       "email": "alice@example.com",
@@ -10,7 +10,7 @@
     },
     {
       "id": "2",
-      "name": "Bob",
+      "username": "Bob",
       "password": "1111",
       "age": 25,
       "email": "bob@example.com",
@@ -18,7 +18,7 @@
     },
     {
       "id": "3",
-      "name": "Charlie",
+      "username": "Charlie",
       "password": "1111",
       "age": 35,
       "email": "charlie@example.com",
@@ -26,7 +26,7 @@
     },
     {
       "id": "4",
-      "name": "David",
+      "username": "David",
       "password": "1111",
       "age": 28,
       "email": "david@example.com",
@@ -34,7 +34,7 @@
     },
     {
       "id": "5",
-      "name": "Eve",
+      "username": "Eve",
       "password": "1111",
       "age": 22,
       "email": "eve@example.com",
@@ -42,7 +42,7 @@
     },
     {
       "id": "6",
-      "name": "Jona",
+      "username": "Jona",
       "password": "1111",
       "age": 40,
       "email": "jona@example.com",
@@ -50,7 +50,7 @@
     },
     {
       "id": "7",
-      "name": "Kim",
+      "username": "Kim",
       "password": "1111",
       "age": 31,
       "email": "kim@example.com",
@@ -93,6 +93,61 @@
       "id": "4",
       "subject": "Python 공부",
       "checked": true
+    }
+  ],
+  "products": [
+    {
+      "id": 5,
+      "product_name": "스마트폰 거치대 5",
+      "color": "Pink",
+      "cost_price": 47723,
+      "sale_price": 76606,
+      "category_code": "E4"
+    },
+    {
+      "id": 6,
+      "product_name": "태블릿 케이스 6",
+      "color": "Red",
+      "cost_price": 29711,
+      "sale_price": 70400,
+      "category_code": "E6"
+    },
+    {
+      "id": 7,
+      "product_name": "고속충전 케이블 7",
+      "color": "Blue",
+      "cost_price": 17246,
+      "sale_price": 25732,
+      "category_code": "E2"
+    }
+  ],
+  "sales": [
+    {
+      "id": 1,
+      "user_id": 79,
+      "product_id": 68,
+      "quantity": 5,
+      "discount_rate": 0.1,
+      "total_price": 86445,
+      "created_at": "2026-04-24"
+    },
+    {
+      "id": 2,
+      "user_id": 58,
+      "product_id": 93,
+      "quantity": 5,
+      "discount_rate": 0.15,
+      "total_price": 402173,
+      "created_at": "2026-05-21"
+    },
+    {
+      "id": 3,
+      "user_id": 97,
+      "product_id": 21,
+      "quantity": 4,
+      "discount_rate": 0.15,
+      "total_price": 167269,
+      "created_at": "2026-03-08"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -4,15 +4,15 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../../no3_store/slices/userSlice'
+import { userLogoutSlice } from '../../no3_store/slices/userSlice'
 
 const HeaderBar = () => {
-  const {isLogin, username} = useSelector(state=>state.user)
+  const {isLogin, user} = useSelector(state=>state.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-      dispatch(logout())
+      dispatch(userLogoutSlice())
       alert("로그아웃 되었습니다.")
       navigate("/login")
   }
@@ -31,7 +31,7 @@ const HeaderBar = () => {
           <UserSection>
 
             <UserName>
-              👋 {username} 님
+              👋 {user.username} 님
             </UserName>
 
             <LogoutButton onClick={handleLogout}>

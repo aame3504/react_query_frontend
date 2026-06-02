@@ -1,6 +1,6 @@
 // EmployeePage.jsx
 
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
 
 import EmployeeList from '../no2_components/employee/EmployeeList'
@@ -8,27 +8,31 @@ import EmployeeTable from '../no2_components/employee/EmployeeTable'
 import EmployeeRegister from '../no2_components/employee/EmployeeRegister'
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate'
 //import { EmployeeContext } from '../no0_context/EmployeeContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { setEmp, setMode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setEmp, setMode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
+import { useAllGetEmployee,useDeleteEmployee } from "../no3_store/hooks/useEmpoyee"
 
 const EmployeePage = () => {
+  const [selectedId, setSelectedId] = useState(1);
   //const {state, dispatch} = useContext(EmployeeContext);
-  const {selectedId, mode, empTable} = useSelector(state=>state.emp);
-const dispatch=useDispatch();
+//   const {selectedId, mode, empTable} = useSelector(state=>state.emp);
+//   const dispatch=useDispatch();
 
-  useEffect(()=>{
-    const newEmp = empTable.filter(item => item.id === selectedId)[0]
-    selectedId &&
-    dispatch(setEmp(newEmp))
-  }, [selectedId, empTable])
+  // useEffect(()=>{
+  //   const newEmp = empTable.filter(item => item.id === selectedId)[0]
+  //   selectedId &&
+  //   dispatch(setEmp(newEmp))
+  // }, [selectedId, empTable])
 
-  const handleDelete = () => {
 
-    if(!selectedId) {
-      alert("삭제할 데이터를 선택하세요");
-      return;
-    }
-    dispatch(employeeDeleteSlice(selectedId))
+  const handleDelete = (id) => {
+
+    // if(!selectedId) {
+    //   alert("삭제할 데이터를 선택하세요");
+    //   return;
+    // }
+    useDeleteEmployee(selectedId)
+    alert("데이터가 삭제되었습니다.");
   }
 
   return (

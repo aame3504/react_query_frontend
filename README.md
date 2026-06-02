@@ -24,6 +24,7 @@ cd server
 json-server --watch db.json --port 3001
 
 api 라이브러리: npm install axios
+query 라이브러리: npm install @tanstack/react-query
 
 =============================================================
 reducer
