@@ -1,0 +1,8 @@
+MVC
+M=model = state
+V = view = return
+C=control=함수(react는 reducer라고함)
+
+frontend == backend == DB
+view        control     model
+
