@@ -9,6 +9,15 @@ export const employeeAllGetApi = async () => {
     }
 }
 
+export const employeeGetApi = async (id) => {
+    try{
+        const response = await axios.get(`http://localhost:3001/employees/${id}`)
+        return response.data
+    }catch(error){
+        return error
+    }
+}
+
 export const employeePostApi = async (dataObj) => {
     try{
         const response = await axios.post("http://localhost:3001/employees",dataObj)

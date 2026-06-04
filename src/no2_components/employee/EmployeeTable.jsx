@@ -1,16 +1,15 @@
 // EmployeeTable.jsx
 
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 const EmployeeTable = () => {
   const {emp} = useSelector(state=>state.emp);
+  
   return (
     <Table>
-
       <tbody>
-
         {emp &&
           Object.entries(emp).map(([key, value]) => (
             <tr key={key}>
@@ -19,15 +18,12 @@ const EmployeeTable = () => {
             </tr>
           ))
         }
-
       </tbody>
-
     </Table>
   )
 }
 
 export default EmployeeTable
-
 
 const Table = styled.table`
   width: 100%;

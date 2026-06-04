@@ -1,35 +1,44 @@
 // EmployeeRegister.jsx
 
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { employeePostSlice } from '../../no3_store/slices/employeeSlice';
-
-
+import { usePostRegisterEmployee } from '../../no3_store/hooks/useEmployee';
 
 const initialEmp = {
     id: '',
     name: '',
     email: '',
     job: '',
-    pay:''
+    pay: ''
 }
-
 
 const EmployeeRegister = () => {
     const [emp, setEmp] = useState(initialEmp);
-    const dispatch = useDispatch(emp);
+    const registerMutation = usePostRegisterEmployee();
+    const dispatch = useDispatch();
+    
     const handleChange = (event) => {
         const {name, value} = event.target;
         setEmp(prev => (
             {...prev, [name]: value}
         ))
     }
-    const handleSubmit = (event) => {
+    
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const newId = Date.now().toString();
-        dispatch(employeePostSlice(emp))
-        setEmp(initialEmp)
+        const newEmp = { ...emp, id: newId };
+        
+        try {
+            await registerMutation.mutateAsync(newEmp);
+            dispatch(employeePostSlice(newEmp));
+            setEmp(initialEmp);
+            alert("등록되었습니다.");
+        } catch (error) {
+            alert("등록 실패");
+        }
     }
 
     return (
@@ -42,6 +51,7 @@ const EmployeeRegister = () => {
                     value={emp.name}
                     onChange={handleChange}
                     placeholder='이름'
+                    required
                 />
             </InputGroup>
             <InputGroup>
@@ -52,6 +62,7 @@ const EmployeeRegister = () => {
                     value={emp.email}
                     onChange={handleChange}
                     placeholder='이메일'
+                    required
                 />
             </InputGroup>
             <InputGroup>
@@ -62,6 +73,7 @@ const EmployeeRegister = () => {
                     value={emp.job}
                     onChange={handleChange}
                     placeholder='직업'
+                    required
                 />
             </InputGroup>
             <InputGroup>
@@ -72,9 +84,10 @@ const EmployeeRegister = () => {
                     value={emp.pay}
                     onChange={handleChange}
                     placeholder='급여'
+                    required
                 />
             </InputGroup>
-            <SubmitButton>
+            <SubmitButton type="submit">
                 등록
             </SubmitButton>
         </Form>
@@ -82,7 +95,6 @@ const EmployeeRegister = () => {
 }
 
 export default EmployeeRegister
-
 
 const Form = styled.form`
   display: flex;

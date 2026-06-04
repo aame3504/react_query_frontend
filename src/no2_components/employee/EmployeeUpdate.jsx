@@ -1,19 +1,20 @@
 // EmployeeUpdate.jsx
 
-import React, { useEffect, useState, useContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { update } from '../../no3_store/slices/employeeSlice';
-import { employeePutSlice } from '../../no3_store/slices/employeeSlice';
+import { useGetEmployee, usePutUpdateEmployee } from '../../no3_store/hooks/useEmployee';
 
-const EmployeeUpdate = () => {
-    const {emp} = useSelector(state=>state.emp)
-    const [newEmp, setNewEmp] = useState(emp);
-    const dispatch = useDispatch();
+const EmployeeUpdate = ({ selectedId }) => {
+    const [newEmp, setNewEmp] = useState({ name: "", email: "", job: "", pay: "" });
+    const { data: emp, isLoading, isError } = useGetEmployee(selectedId)
+    const updateMutation = usePutUpdateEmployee()
+    
     useEffect(() => {
-        emp &&
-        setNewEmp(emp)
+        if (emp) {
+            setNewEmp(emp)
+        }
     }, [emp])
+
     const handleChange = (event) => {
         const {name, value} = event.target;
         setNewEmp(prev => (
@@ -21,73 +22,71 @@ const EmployeeUpdate = () => {
         ))
     }
 
-    const handleSubmit = (event) => {
-
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-       dispatch(employeePutSlice(newEmp))
+        try{
+            await updateMutation.mutateAsync(newEmp);
+            alert("직원정보가 수정되었습니다.");
+        }catch{
+            alert("fail");
+        }
     }
+
+    if (isLoading) return <div>로딩 중...</div>;
+    if (isError) return <div>데이터를 불러오지 못했습니다.</div>;
 
     return (
         <Form onSubmit={handleSubmit}>
 
             <InputGroup>
-
                 <Label>이름</Label>
-
                 <Input
                     type="text"
                     name="name"
-                    value={newEmp.name}
+                    value={newEmp.name || ""}
                     onChange={handleChange}
                     placeholder='이름'
+                    required
                 />
-
             </InputGroup>
 
             <InputGroup>
-
                 <Label>이메일</Label>
-
                 <Input
                     type="email"
                     name="email"
-                    value={newEmp.email}
+                    value={newEmp.email || ""}
                     onChange={handleChange}
                     placeholder='이메일'
+                    required
                 />
-
             </InputGroup>
 
             <InputGroup>
-
                 <Label>직업</Label>
-
                 <Input
                     type="text"
                     name="job"
-                    value={newEmp.job}
+                    value={newEmp.job || ""}
                     onChange={handleChange}
                     placeholder='직업'
+                    required
                 />
-
             </InputGroup>
 
             <InputGroup>
-
                 <Label>급여</Label>
-
                 <Input
                     type="number"
                     name="pay"
-                    value={newEmp.pay}
+                    value={newEmp.pay || ""}
                     onChange={handleChange}
                     placeholder='급여'
+                    required
                 />
-
             </InputGroup>
 
-            <SubmitButton>
+            <SubmitButton type="submit">
                 수정
             </SubmitButton>
 
