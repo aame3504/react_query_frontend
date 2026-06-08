@@ -1,37 +1,51 @@
 import axios from "axios";
 
-export const todosGetApi = async () => {
+export const todoAllGetApi = async () => {
     try{
         const response = await axios.get("http://localhost:3001/todos")
         return response.data
-    }catch(error){
+    }
+    catch(error){
         return error
     }
 }
 
-export const todosPostApi = async (dataObj) => {
+export const todoGetApi = async (id) => {
     try{
-        const response = await axios.post("http://localhost:3001/todos",dataObj)
+        const response = await axios.get(`http://localhost:3001/todos/${id}`)
         return response.data
-    }catch(error){
+    }
+    catch(error){
         return error
     }
 }
 
-export const todosPutApi = async (dataObj) => {
+export const todoPostApi = async (dataObj) => {
     try{
-        const response = await axios.put(`http://localhost:3001/todos/${dataObj.id}`,dataObj)
+        const response = await axios.post("http://localhost:3001/todos", dataObj)
         return response.data
-    }catch(error){
+    }
+    catch(error){
         return error
     }
 }
 
-export const todosDeleteApi = async (id) => {
+export const todoPutApi = async (dataObj) => {
     try{
-        const response = await axios.delete(`http://localhost:3001/todos/${id}`)
+        const response = await axios.put(`http://localhost:3001/todos/${dataObj.id}`, dataObj)
         return response.data
-    }catch(error){
+    }
+    catch(error){
+        return error
+    }
+}
+
+export const todoDeleteApi = async (id) => {
+    try{
+        await axios.delete(`http://localhost:3001/todos/${id}`)
+        return id
+    }
+    catch(error){
         return error
     }
 }

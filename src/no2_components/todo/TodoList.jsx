@@ -1,32 +1,31 @@
 import React from 'react'
 import TodoListChild from './TodoListChild'
 import styled from 'styled-components'
-import { useGetTodo } from '../../no3_store/hooks/usetodo';
+import { useAllGetTodo } from '../../no3_store/hooks/useTodo'
 
 const TodoList = () => {
-  const { data: todoList = [], isLoading, isError } = useGetTodo();
+  const {data: todoList=[], isLoading, error } = useAllGetTodo()
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (isError) return <div>데이터를 불러오는 중 에러가 발생했습니다.</div>;
-
+  if(isLoading) return <h3>loading...</h3>
+  if(error) return <h3>{error.message}</h3>
+  
   return (
-    <Container>
-      {
-        todoList.length > 0 && todoList.map(item => (
-          <TodoListChild
-            key={item.id}
+    <ListContainer>
+      {todoList?.map(item => (
+        <TodoListChild
+            key = {item.id}
             item={item}
-          />
-        ))
-      }
-    </Container>
+        />
+      ))}
+    </ListContainer>
   )
 }
 
 export default TodoList
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-`
+
+const ListContainer = styled.div`
+  display: flex; /* 레이아웃 정렬 */
+  flex-direction: column; /* 세로 정렬 지정 */
+  gap: 12px; /* 자식 요소들 간의 간격 여백 */
+`;

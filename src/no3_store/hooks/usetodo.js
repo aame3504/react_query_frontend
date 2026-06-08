@@ -1,72 +1,82 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { todosGetApi,todosDeleteApi,todosPostApi,todosPutApi } from "../apis/todo.api";
 
-export const useGetTodo = () => {
+import {
+    todoAllGetApi,
+    todoGetApi,
+    todoPostApi,
+    todoPutApi,
+    todoDeleteApi
+} from "../apis/todo.api"
+
+export const useAllGetTodo = () => {
     return useQuery({
         queryKey: ["todos"],
-        queryFn: todosGetApi
+        queryFn: todoAllGetApi
     })
 }
 
-export const usePostTodo = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: todosPostApi,
-        onSuccess: (dataObj) => {
-            queryClient.setQueryData(
-                ["todos"],
-                (oldData = []) => [
-                    ...oldData, dataObj
-                ]
-            );
-            queryClient.invalidateQueries({queryKey:["todos"]});
-        }
-    });
+export const useGetTodo = (id) => {
+    return useQuery({
+        queryKey: ["todos", id],
+        queryFn: () => todoGetApi(id),
+        enabled: !!id
+    })
 }
 
-export const usePutTodo = () => {
+export const usePostRegisterTodo = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: todosPutApi,
-        onSuccess: (dataObj) => {
+        mutationFn: todoPostApi,
+        onSuccess: (dataObj) =>{
             queryClient.setQueryData(
                 ["todos"],
-                (oldData = []) => oldData.map(item =>
-                    item.id === dataObj.id ?
-                        dataObj : item
-                )
+                (old=[]) =>[
+                    ...old, dataObj
+                ]
             )
-            queryClient.setQueryData(
-                ["todos", dataObj.id],
-                dataObj
-            )
-            queryClient.invalidateQueries({
-                queryKey: ["todos", dataObj.id]
-            })
+            // 캐쉬 제거, 데이터 다시 불러오기기
             queryClient.invalidateQueries({
                 queryKey: ["todos"]
             })
         }
     })
 }
+
+export const usePutUpdateTodo = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: todoPutApi,
+        onSuccess: (dataObj) =>{
+            queryClient.setQueryData(
+                ["todos"],
+                (old=[]) => old.map(item=>
+                    item.id === dataObj.id ?
+                    dataObj : item
+                )
+            );
+            queryClient.invalidateQueries(
+                ["todos", dataObj.id]
+            );
+        }
+    })
+}
+
+
 
 export const useDeleteTodo = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: todosDeleteApi,
-        onSuccess: (id) => {
+        mutationFn: todoDeleteApi,
+        onSuccess: (id) =>{
             queryClient.setQueryData(
                 ["todos"],
-                (oldData = []) => oldData.filter(item =>
-                    item.id !== id
+                (old=[]) => old.filter(item=>
+                    item.id !== id 
                 )
-            )
-            queryClient.removeQueries({
-                queryKey: ["todos", id]
-            })
-            queryClient.invalidateQueries({
-                queryKey: ["todos"]
-            })
+            );
+            queryClient.removeQueries(
+                ["todos", id],
+            );
         }
     })
 }

@@ -1,44 +1,74 @@
-// EmployeeTable.jsx
-
 import React from 'react'
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useGetEmployee } from '../../no3_store/hooks/useEmployee';
 
-const EmployeeTable = () => {
-  const {emp} = useSelector(state=>state.emp);
-  
+const EmployeeTable = ({selectedId}) => {
+  const {data: emp, isLoading, error} = useGetEmployee(selectedId)
+  if(isLoading) return <h3>loading...</h3>
+  if(error) return <h3>{error.message}</h3>
   return (
-    <Table>
-      <tbody>
-        {emp &&
-          Object.entries(emp).map(([key, value]) => (
-            <tr key={key}>
-              <Th>{key}</Th>
-              <Td>{value}</Td>
+    <TableWrapper>
+        <StyledTable>
+          <thead>
+            <tr>
+              {emp && Object.keys(emp).map(key => (
+                <Th key={key}>{key}</Th>
+              ))}
             </tr>
-          ))
-        }
-      </tbody>
-    </Table>
+          </thead>
+          <tbody>
+            <Row>
+              {emp && Object.values(emp).map(value => (
+                <Td key={value}>{value}</Td>
+              ))}
+            </Row>
+          </tbody>
+        </StyledTable>
+    </TableWrapper>
   )
 }
 
-export default EmployeeTable
+export default EmployeeTable;
 
-const Table = styled.table`
+const TableWrapper = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+`;
+
+const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-`
+  text-align: left;
+  min-width: 500px;
+`;
 
 const Th = styled.th`
-  width: 140px;
-  background: #e2e8f0;
-  padding: 14px;
-  text-align: left;
-  border-bottom: 1px solid #cbd5e1;
-`
+  background: #f8fafc;
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  letter-spacing: 0.05em;
+`;
 
 const Td = styled.td`
-  padding: 14px;
-  border-bottom: 1px solid #e2e8f0;
-`
+  padding: 18px 20px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  font-weight: 500;
+`;
+
+const Row = styled.tr`
+  background: white;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background: #f8fafc;
+  }
+`;
+

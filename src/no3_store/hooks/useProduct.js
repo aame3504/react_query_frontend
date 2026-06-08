@@ -1,79 +1,79 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
-    employeeAllGetApi,
-    employeeGetApi,
-    employeePostApi,
-    employeePutApi,
-    employeeDeleteApi
-} from "../apis/employee.api"
+    productAllGetApi,
+    productGetApi,
+    productPostApi,
+    productPutApi,
+    productDeleteApi
+} from "../apis/product.api"
 
-export const useAllGetEmployee = () => {
+export const useAllGetProduct = () => {
     return useQuery({
-        queryKey: ["employees"],
-        queryFn: employeeAllGetApi
+        queryKey: ["product"],
+        queryFn: productAllGetApi
     })
 }
 
-export const useGetEmployee = (id) => {
+export const useGetProduct = (id) => {
     return useQuery({
-        queryKey: ["employees", id],
-        queryFn: () => employeeGetApi(id),
+        queryKey: ["product", id],
+        queryFn: () => productGetApi(id),
         enabled: !!id
     })
 }
 
-export const usePostRegisterEmployee = () => {
+export const usePostRegisterProduct = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: employeePostApi,
+        mutationFn: productPostApi,
         onSuccess: (dataObj) =>{
             queryClient.setQueryData(
-                ["employees"],
+                ["product"],
                 (old=[]) =>[
                     ...old, dataObj
                 ]
             )
             // 캐쉬 제거, 데이터 다시 불러오기기
             queryClient.invalidateQueries({
-                queryKey: ["employees"]
+                queryKey: ["product"]
             })
         }
     })
 }
 
-export const usePutUpdateEmployee = () => {
+export const usePutUpdateProduct = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: employeePutApi,
+        mutationFn: productPutApi,
         onSuccess: (dataObj) =>{
             queryClient.setQueryData(
-                ["employees"],
+                ["product"],
                 (old=[]) => old.map(item=>
                     item.id === dataObj.id ?
                     dataObj : item
                 )
             );
             queryClient.invalidateQueries(
-                ["employees", dataObj.id]
+                ["product", dataObj.id]
             );
         }
     })
 }
 
-export const useDeleteEmployee = () => {
+export const useDeleteProduct = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: employeeDeleteApi,
+        mutationFn: productDeleteApi,
         onSuccess: (id) =>{
             queryClient.setQueryData(
-                ["employees"],
+                ["product"],
                 (old=[]) => old.filter(item=>
                     item.id !== id 
                 )
             );
             queryClient.removeQueries(
-                ["employees", id],
+                ["product", id],
             );
         }
     })
