@@ -38,9 +38,24 @@ const ProductTable = () => {
       {
         headerName: "상품 관리",
         cellRenderer: (params) => (
-          <div>
-            <button onClick={() => handleUpdate(params.data)}>수정</button>
-            <button onClick={() => handleDelete(params.data.id)}>삭제</button>
+          // 그리드 내부 버튼 스타일 부착
+          <div style={styles.actionContainer}>
+            <button 
+              style={styles.btnEdit} 
+              onClick={() => handleUpdate(params.data)}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e6f4ff'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ffffff'}
+            >
+              수정
+            </button>
+            <button 
+              style={styles.btnDelete} 
+              onClick={() => handleDelete(params.data.id)}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fff2f0'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ffffff'}
+            >
+              삭제
+            </button>
           </div>
         ),
         flex: 1,
@@ -53,13 +68,21 @@ const ProductTable = () => {
   if (error) return <h3>{error?.message}</h3>;
 
   return (
-    <>
-      <div>
-        <div>상품 관리</div>
-        <button onClick={handleRegister}>상품 등록</button>
+    <div style={styles.container}>
+      {/* 상단 타이틀 및 등록 버튼 레이아웃 스타일 부착 */}
+      <div style={styles.header}>
+        <div style={styles.title}>상품 관리</div>
+        <button 
+          style={styles.btnRegister} 
+          onClick={handleRegister}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0958d9'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#1677ff'}
+        >
+          상품 등록
+        </button>
       </div>
       
-      <div className="ag-theme-alpine" style={{ height: "800px", width: "100%" }}>
+      <div className="ag-theme-alpine" style={{ height: "700px", width: "100%", borderRadius: '8px', overflow: 'hidden' }}>
         <AgGridReact
           theme="legacy"
           rowData={productList}
@@ -84,8 +107,66 @@ const ProductTable = () => {
           }
         }}
       />
-    </>
+    </div>
   );
+};
+
+// 💅 파일 내부에 첨부된 스타일 정의
+const styles = {
+  container: {
+    padding: '24px',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  title: {
+    fontSize: '22px',
+    fontWeight: 'bold',
+    color: '#1f1f1f',
+  },
+  btnRegister: {
+    backgroundColor: '#1677ff', // AntD 기본 블루색상 매칭
+    color: '#ffffff',
+    border: 'none',
+    padding: '10px 20px',
+    borderRadius: '8px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
+  },
+  actionContainer: {
+    display: 'flex',
+    gap: '8px',
+    alignItems: 'center',
+    height: '100%',
+  },
+  btnEdit: {
+    backgroundColor: '#ffffff',
+    color: '#1677ff',
+    border: '1px solid #1677ff',
+    padding: '4px 12px',
+    borderRadius: '6px',
+    fontSize: '13px',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  },
+  btnDelete: {
+    backgroundColor: '#ffffff',
+    color: '#ff4d4f', // AntD 기본 레드색상 매칭
+    border: '1px solid #ff4d4f',
+    padding: '4px 12px',
+    borderRadius: '6px',
+    fontSize: '13px',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  }
 };
 
 export default ProductTable;

@@ -29,8 +29,10 @@ const ProductModal = ({ open, setOpen, initialValues, onSubmit }) => {
         form.resetFields();
       }}
       footer={null}
-      width={700}
+      width={600} // 모달 너비를 조금 더 컴팩트하게 조정
       centered
+      // 모달 바디 패딩 커스텀 스타일 첨부
+      styles={{ body: { padding: '24px 12px 12px 12px' } }} 
     >
       <Form
         form={form}
@@ -39,20 +41,21 @@ const ProductModal = ({ open, setOpen, initialValues, onSubmit }) => {
         size="large"
       >
         <Form.Item
-          label="상품명"
+          label={<span style={{ fontWeight: 600 }}>상품명</span>}
           name="product_name"
           rules={[{ required: true, message: "상품명을 입력하세요" }]}
         >
-          <Input placeholder="예: 악세사리" />
+          <Input placeholder="예: 악세사리" style={{ borderRadius: '6px' }} />
         </Form.Item>
 
         <Form.Item
-          label="색상"
+          label={<span style={{ fontWeight: 600 }}>색상</span>}
           name="color"
           rules={[{ required: true, message: "색상을 선택하세요" }]}
         >
           <Select
             placeholder="색상 선택"
+            style={{ borderRadius: '6px' }}
             options={[
               { value: "Black", label: "Black" },
               { value: "White", label: "White" },
@@ -63,20 +66,21 @@ const ProductModal = ({ open, setOpen, initialValues, onSubmit }) => {
         </Form.Item>
 
         <Form.Item
-          label="원가"
+          label={<span style={{ fontWeight: 600 }}>원가</span>}
           name="cost_price"
           rules={[{ required: true, message: "원가를 입력하세요" }]}
         >
-          <InputNumber placeholder="예: 40000" style={{ width: '100%' }} />
+          <InputNumber placeholder="예: 40000" style={{ width: '100%', borderRadius: '6px' }} />
         </Form.Item>
 
         <Form.Item
-          label="카테고리 코드"
+          label={<span style={{ fontWeight: 600 }}>카테고리 코드</span>}
           name="category_code"
           rules={[{ required: true, message: "카테고리 코드를 선택하세요" }]}
         >
           <Select
             placeholder="카테고리 코드 선택"
+            style={{ borderRadius: '6px' }}
             options={[
               { value: "E1", label: "E1" },
               { value: "E2", label: "E2" },
@@ -87,15 +91,20 @@ const ProductModal = ({ open, setOpen, initialValues, onSubmit }) => {
           />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item style={{ marginBottom: 0, marginTop: '32px' }}>
           <Button
             type="primary"
             htmlType="submit"
             block
             size="large"
-            style={{ height: "48px", borderRadius: "10px", fontWeight: "bold" }}
+            style={{ 
+              height: "48px", 
+              borderRadius: "10px", 
+              fontWeight: "bold",
+              boxShadow: '0 4px 10px rgba(22, 119, 255, 0.2)' 
+            }}
           >
-            {initialValues ? "수정하기":"등록하기"}
+            {initialValues ? "수정하기" : "등록하기"}
           </Button>
         </Form.Item>
       </Form>
