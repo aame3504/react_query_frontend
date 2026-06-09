@@ -1,4 +1,3 @@
-// App.jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import HomePage from './no1_pages/HomePage'
@@ -13,11 +12,9 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community'
 ModuleRegistry.registerModules([AllCommunityModule])
 
-
 const queryClient = new QueryClient();
 
 function App() {
-
   return (
     <BrowserRouter>
         <QueryClientProvider client={queryClient}>
@@ -30,7 +27,7 @@ function App() {
                   <Route path="/" element={<HomePage/>}/>
                   <Route path="/todo" element={<TodoPage/>}/>
                   <Route path="/employee" element={<EmployeePage/>}/>
-                  <Route path="/product" element={<ProductPage/>}/>
+                  <Route path="/sales" element={<ProductPage/>}/>
                 </Routes>
               </PageContainer>
             </BodyLayout>
@@ -41,7 +38,6 @@ function App() {
 }
 
 export default App
-
 
 const Container = styled.div`
     width: 100%;
